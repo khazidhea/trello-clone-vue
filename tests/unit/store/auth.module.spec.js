@@ -1,8 +1,8 @@
 import nock from 'nock'
 
 import { actions } from '@/store/auth.module'
-import { LOGIN, LOGOUT } from '@/store/actions.type'
-import { SET_AUTH, SET_ERROR, PURGE_AUTH } from '@/store/mutations.type'
+import { LOGIN, LOGOUT } from '@/store/auth.module/actions.type'
+import { SET_AUTH, SET_ERROR, PURGE_AUTH } from '@/store/auth.module/mutations.type'
 import { API_URL } from '@/config'
 
 const MOCK_USERNAME = 'user'
