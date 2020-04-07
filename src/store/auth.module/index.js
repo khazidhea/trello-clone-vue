@@ -3,9 +3,7 @@ import TokenService from '@/services/token.service'
 import {
   LOGIN,
   LOGOUT,
-  // REGISTER,
-  // CHECK_AUTH,
-  // UPDATE_USER
+  CHECK_AUTH,
 } from './actions.type'
 import { SET_AUTH, PURGE_AUTH, SET_ERROR } from './mutations.type'
 
@@ -27,6 +25,14 @@ export const actions = {
   [LOGOUT] (context) {
     context.commit(PURGE_AUTH)
   },
+  [CHECK_AUTH] (context) {
+    const token = TokenService.getToken()
+    if (token) {
+      ApiService.setAuthHeader(token)
+    } else {
+      context.commit(PURGE_AUTH)
+    }
+  }
 }
 
 const mutations = {

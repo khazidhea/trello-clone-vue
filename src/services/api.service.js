@@ -1,5 +1,4 @@
 import axios from 'axios'
-import TokenService from '@/services/token.service'
 import { API_URL } from '@/config'
 
 const axiosHelper = async (method, resource, params) => {
@@ -17,8 +16,8 @@ const ApiService = {
     axios.defaults.baseURL = API_URL
   },
 
-  setHeader () {
-    axios.defaults.headers.common.Authorization = `Token ${TokenService.getToken()}`
+  setAuthHeader (token) {
+    axios.defaults.headers.common.Authorization = `Token ${token}`
   },
 
   async get (resource, params) {
