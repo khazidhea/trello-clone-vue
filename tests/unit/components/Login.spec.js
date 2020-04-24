@@ -3,16 +3,14 @@ import { mount, createLocalVue } from '@vue/test-utils'
 
 import Login from '@/components/Login'
 import { LOGIN } from '@/store/auth.module/actions.type'
-import { SET_ERROR } from '@/store/auth.module/mutations.type'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('Login component', () => {
   let wrapper
-  const mockStore = { 
+  const mockStore = {
     dispatch: jest.fn(),
-    commit: jest.fn()
   }
 
   beforeEach(() => {
@@ -20,31 +18,21 @@ describe('Login component', () => {
       localVue,
       mocks: { $store: mockStore },
       computed: {
-        error: () => 'test error'
-      }
+        error: () => 'test error',
+      },
+      data: () => ({
+        valid: true
+      })
     })
   })
 
-  it('requires login', () => {
-    wrapper.find('[data-test="login"]').trigger('click')
-    expect(mockStore.commit).toHaveBeenCalledWith(
-      `auth/${SET_ERROR}`,
-      'Login is a required field'
-    )
-  })
-
-  // it('requires password', () => {
-
-  // })
-
-  // it('shows error given invalid credentials', () => {
-
-  // })
-
-  it('should dispatch login action', () => {
+  it('should dispatch login action', async () => {
     wrapper.find('[data-test="username"]').setValue('username')
     wrapper.find('[data-test="password"]').setValue('password')
+    await wrapper.vm.$nextTick()
+    await wrapper.vm.$nextTick()
     wrapper.find('[data-test="login"]').trigger('click')
+    await wrapper.vm.$nextTick()
     expect(mockStore.dispatch).toHaveBeenCalledWith(
       `auth/${LOGIN}`,
       { username: 'username', password: 'password' }

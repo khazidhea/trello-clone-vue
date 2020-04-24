@@ -40,7 +40,12 @@ describe('Auth module', () => {
     it('should set error given bad credentials', async () => {
       ApiService.post = jest.fn(() => {
         const error = new Error('test')
-        error.response = { data: 'Bad credentials' }
+        error.response = {
+          status: 400,
+          data: {
+            non_field_errors: ['Bad credentials']
+          }
+        }
         throw error
       })
 
