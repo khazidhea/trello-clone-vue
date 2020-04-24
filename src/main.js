@@ -17,7 +17,7 @@ new Vue({
   store,
 
   created () {
-    this.$store.dispatch(CHECK_AUTH)
+    this.$store.dispatch(`auth/${CHECK_AUTH}`)
   },
 
   vuetify,

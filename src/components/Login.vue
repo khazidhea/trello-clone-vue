@@ -3,6 +3,9 @@
     <v-card-title>
       <h1 class="display-1">Login</h1>
     </v-card-title>
+    <v-card-subtitle>
+      <p data-test="error">{{ error }}</p>
+    </v-card-subtitle>
     <v-card-text>
       <v-form>
         <v-text-field
@@ -34,8 +37,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
+
 import { LOGIN } from '@/store/auth.module/actions.type'
+import { SET_ERROR } from '@/store/auth.module/mutations.type'
 
 export default {
   data: () => ({
@@ -43,8 +48,17 @@ export default {
     username: '',
     password: '',
   }),
+  computed: {
+    ...mapState('auth', ['error'])
+  },
   methods: {
-    ...mapActions([LOGIN])
+    login (credentials) {
+      if (this.username === '') {
+        this.$store.commit(`auth/${SET_ERROR}`, 'Login is a required field')
+      } else {
+        this.$store.dispatch(`auth/${LOGIN}`, credentials)
+      }
+    }
   },
 }
 </script>
