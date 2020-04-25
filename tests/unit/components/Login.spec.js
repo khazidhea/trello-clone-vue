@@ -4,26 +4,20 @@ import { mount, createLocalVue } from '@vue/test-utils'
 import Login from '@/components/Login'
 import { LOGIN } from '@/store/auth.module/actions.type'
 
+import store from '@/store/index'
+
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('Login component', () => {
   let wrapper
-  const mockStore = {
-    dispatch: jest.fn(),
-    _modulesNamespaceMap: {
-      'auth/': {
-        context: {
-          dispatch: jest.fn()
-        }
-      }
-    }
-  }
+
+  store.dispatch = jest.fn()
 
   beforeEach(() => {
     wrapper = mount(Login, {
       localVue,
-      mocks: { $store: mockStore },
+      mocks: { $store: store },
       computed: {
         error: () => 'test error',
       },
@@ -40,8 +34,8 @@ describe('Login component', () => {
     await wrapper.vm.$nextTick()
     wrapper.find('[data-test="login"]').trigger('click')
     await wrapper.vm.$nextTick()
-    expect(mockStore._modulesNamespaceMap['auth/'].context.dispatch).toHaveBeenCalledWith(
-      `${LOGIN}`,
+    expect(store.dispatch).toHaveBeenCalledWith(
+      `auth/${LOGIN}`,
       { username: 'username', password: 'password' }
     )
   })
