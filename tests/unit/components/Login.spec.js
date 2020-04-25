@@ -4,14 +4,23 @@ import { mount, createLocalVue } from '@vue/test-utils'
 import Login from '@/components/Login'
 import { LOGIN } from '@/store/auth.module/actions.type'
 
-import store from '@/store/index'
-
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('Login component', () => {
   let wrapper
 
+  let store = new Vuex.Store({
+    modules: {
+      auth: {
+        namespaced: true,
+        actions: {
+          login: jest.fn()
+        }
+      },
+    }
+  })
+  
   store.dispatch = jest.fn()
 
   beforeEach(() => {
