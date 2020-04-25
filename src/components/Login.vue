@@ -61,7 +61,7 @@ export default {
     ...mapState('auth', ['error'])
   },
   methods: {
-    ...mapActions({ login: `auth/${LOGIN}` })
+    ...mapActions('auth', [LOGIN])
   },
 }
 </script>

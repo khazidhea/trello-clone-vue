@@ -11,6 +11,13 @@ describe('Login component', () => {
   let wrapper
   const mockStore = {
     dispatch: jest.fn(),
+    _modulesNamespaceMap: {
+      'auth/': {
+        context: {
+          dispatch: jest.fn()
+        }
+      }
+    }
   }
 
   beforeEach(() => {
@@ -33,8 +40,8 @@ describe('Login component', () => {
     await wrapper.vm.$nextTick()
     wrapper.find('[data-test="login"]').trigger('click')
     await wrapper.vm.$nextTick()
-    expect(mockStore.dispatch).toHaveBeenCalledWith(
-      `auth/${LOGIN}`,
+    expect(mockStore._modulesNamespaceMap['auth/'].context.dispatch).toHaveBeenCalledWith(
+      `${LOGIN}`,
       { username: 'username', password: 'password' }
     )
   })
