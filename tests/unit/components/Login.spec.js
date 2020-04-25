@@ -26,13 +26,10 @@ describe('Login component', () => {
   beforeEach(() => {
     wrapper = mount(Login, {
       localVue,
-      mocks: { $store: store },
+      store,
       computed: {
         error: () => 'test error',
-      },
-      data: () => ({
-        valid: true
-      })
+      }
     })
   })
 
