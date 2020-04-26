@@ -3,7 +3,8 @@ import { API_URL } from '@/config'
 
 const axiosHelper = async (method, resource, params) => {
   try {
-    return await axios[method](`${resource}/`, params)
+    const response = await axios[method](`${resource}/`, params)
+    return response.data
   } catch (error) {
     // Add ApiService signature, but keep response object from axios
     error.name = 'ApiService ' + error.name
