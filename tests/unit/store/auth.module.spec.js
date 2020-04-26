@@ -24,7 +24,7 @@ describe('Auth module', () => {
   describe('Login action', () => {
     it('should set auth given good credentials', async () => {
       const mockPost = jest.fn().mockResolvedValue({
-        data: { user: MOCK_USER, token: MOCK_TOKEN }
+        user: MOCK_USER, token: MOCK_TOKEN
       })
       ApiService.post = mockPost
 

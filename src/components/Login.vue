@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 import { LOGIN } from '@/store/auth.module/actions.type'
 
@@ -61,7 +61,10 @@ export default {
     ...mapState('auth', ['error'])
   },
   methods: {
-    ...mapActions('auth', [LOGIN])
+    async login (credentials) {
+      await this.$store.dispatch(`auth/${LOGIN}`, credentials)
+      this.$router.push({ name: 'tasks' })
+    }
   },
 }
 </script>

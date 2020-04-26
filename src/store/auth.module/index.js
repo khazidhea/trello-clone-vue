@@ -17,9 +17,9 @@ export const actions = {
   async [LOGIN] (context, credentials) {
     try {
       const response = await ApiService.post('auth', credentials)
-      context.commit(SET_AUTH, response.data)
+      context.commit(SET_AUTH, response)
     } catch (error) {
-      if (error.response.status === 400) {
+      if (error.response && error.response.status === 400) {
         context.commit(SET_ERROR, error.response.data.non_field_errors[0])
       }
     }

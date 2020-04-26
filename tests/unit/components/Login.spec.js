@@ -10,7 +10,7 @@ localVue.use(Vuex)
 describe('Login component', () => {
   let wrapper
 
-  let store = new Vuex.Store({
+  const store = new Vuex.Store({
     modules: {
       auth: {
         namespaced: true,
@@ -20,16 +20,15 @@ describe('Login component', () => {
       },
     }
   })
-  
+
   store.dispatch = jest.fn()
 
   beforeEach(() => {
     wrapper = mount(Login, {
       localVue,
       store,
-      computed: {
-        error: () => 'test error',
-      }
+      computed: { error: () => 'test error' },
+      mocks: { $router: { push: jest.fn() } }
     })
   })
 
