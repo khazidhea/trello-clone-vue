@@ -1,5 +1,6 @@
 describe('Task', () => {
   beforeEach(() => {
+    cy.login('author', 'author')
     cy.visit('/tasks/1/')
   })
 

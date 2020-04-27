@@ -1,11 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import store from '@/store'
+
 Vue.use(VueRouter)
 
 const routes = [
   {
     name: 'home',
+    path: '/',
+    component: () => import('@/components/TaskList'),
+  },
+  {
+    name: 'login',
     path: '/',
     component: () => import('@/components/Login'),
   },
@@ -26,6 +33,15 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  console.log(store)
+  if (to.name !== 'login' && !store.state.auth.isAuthenticated) {
+    next({ name: 'login' })
+  } else {
+    next()
+  }
 })
 
 export default router

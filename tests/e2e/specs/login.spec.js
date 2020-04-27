@@ -1,6 +1,11 @@
 describe('Log in', () => {
   beforeEach(() => {
+    cy.visit('/login')
+  })
+
+  it('redirects other requests to login', () => {
     cy.visit('/')
+    cy.contains('h1', 'Login')
   })
 
   it('greets with a login header', () => {
