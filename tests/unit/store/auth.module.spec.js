@@ -23,14 +23,13 @@ describe('Auth module', () => {
 
   describe('Login action', () => {
     it('should set auth given good credentials', async () => {
-      const mockPost = jest.fn().mockResolvedValue({
+      ApiService.post = jest.fn().mockResolvedValue({
         user: MOCK_USER, token: MOCK_TOKEN
       })
-      ApiService.post = mockPost
 
       await actions[LOGIN](context, MOCK_CREDENTIALS)
 
-      expect(mockPost).toHaveBeenCalledWith('auth', MOCK_CREDENTIALS)
+      expect(ApiService.post).toHaveBeenCalledWith('auth', MOCK_CREDENTIALS)
       expect(commitFunction.mock.calls[0][0]).toBe(SET_AUTH)
       expect(commitFunction.mock.calls[0][1]).toMatchObject(
         { user: MOCK_USER, token: MOCK_TOKEN }
@@ -66,18 +65,16 @@ describe('Auth module', () => {
 
   describe('Check auth action', () => {
     it('should set header if there is saved auth data', () => {
-      const mockSetAuthHeader = jest.fn()
-      ApiService.setAuthHeader = mockSetAuthHeader
+      ApiService.setAuthHeader = jest.fn()
       TokenService.getToken = () => { return MOCK_TOKEN }
 
       actions[CHECK_AUTH](context)
 
-      expect(mockSetAuthHeader).toHaveBeenCalledWith(MOCK_TOKEN)
+      expect(ApiService.setAuthHeader).toHaveBeenCalledWith(MOCK_TOKEN)
     })
 
     it('should purge auth if there is no saved auth data', () => {
-      const mockSetAuthHeader = jest.fn()
-      ApiService.setAuthHeader = mockSetAuthHeader
+      ApiService.setAuthHeader = jest.fn()
       TokenService.getToken = () => { return undefined }
 
       actions[CHECK_AUTH](context)
