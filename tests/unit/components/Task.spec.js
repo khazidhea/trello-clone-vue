@@ -23,8 +23,7 @@ describe('Task component', () => {
   })
 
   it('should fetch task from api if no task prop is set', async () => {
-    ApiService.get = jest.fn()
-    ApiService.get.mockReturnValue(Promise.resolve(task))
+    ApiService.get = jest.fn().mockResolvedValue(task)
     const wrapper = mount(Task, {
       localVue,
       propsData: {
@@ -33,6 +32,7 @@ describe('Task component', () => {
     })
 
     expect(ApiService.get).toHaveBeenCalledWith('tasks/123')
+    await wrapper.vm.$nextTick()
     await wrapper.vm.$nextTick()
     expect(wrapper.find('[data-test="title"]').text()).toBe('Test task')
   })

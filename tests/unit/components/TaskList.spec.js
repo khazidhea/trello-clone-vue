@@ -9,7 +9,6 @@ const localVue = createLocalVue()
 
 describe('TaskList component', () => {
   it('should get data from api', async () => {
-    ApiService.get = jest.fn()
     const tasks = [
       {
         title: 'First task'
@@ -18,13 +17,14 @@ describe('TaskList component', () => {
         title: 'Second task'
       }
     ]
-    ApiService.get.mockReturnValue(Promise.resolve(tasks))
+    ApiService.get = jest.fn().mockResolvedValue(tasks)
 
     const wrapper = mount(TaskList, {
       localVue,
     })
 
     expect(ApiService.get).toHaveBeenCalledWith('tasks')
+    await wrapper.vm.$nextTick()
     await wrapper.vm.$nextTick()
     expect(wrapper.findAll('[data-test="task"]').length).toBe(2)
   })
